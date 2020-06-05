@@ -1,6 +1,7 @@
 import os
 import random
 import requests
+from playerdict import playerdict
 
 import discord
 from dotenv import load_dotenv
@@ -25,48 +26,50 @@ async def on_message(message):
 
     if '!rating' in message.content:
         as_list = message.content.split()
-        userID = as_list[1]
-
         try:
-            TGresponse = requests.get(
-                'https://aoe2.net/api/player/ratinghistory',
-                params={'game': 'aoe2de',
-                        'leaderboard_id': '4',
-                        'start': '0',
-                        'count': '1',
-                        'steam_id': userID,
-                        }
-                )
-            if TGresponse.status_code == 200:
-                TGdata = TGresponse.json()
-                TGinfo = TGdata[0]['rating']
-            else:
-                await message.channel.send(f"Sorry, I can't find any information for that ID ({userID}). 😳 \nMaybe there's a mistake in it? ")
-                return
-
+            userID = as_list[1]
         except(IndexError):
-            TGinfo = 'No data available'
+            await message.channel.send(f"Please enter an ID number. I can't do anything without one yet!")
+            return
+        if userID not in playerdict.keys():
+            await message.channel.send(f"Sorry, I can't find any information for that ID ({userID}). 😳 \nMaybe there's a mistake in it? ")
 
-
-        try:
-            onevoneresponse = requests.get(
+        else:
+            try:
+                TGresponse = requests.get(
                     'https://aoe2.net/api/player/ratinghistory',
                     params={'game': 'aoe2de',
-                            'leaderboard_id': '3',
+                            'leaderboard_id': '4',
                             'start': '0',
                             'count': '1',
                             'steam_id': userID,
                             }
-                )
-            onevonedata = onevoneresponse.json()
-            oneVoneinfo = onevonedata[0]['rating']
-        except(IndexError):
-            oneVoneinfo = 'No data available'
+                    )
+                if TGresponse.status_code == 200:
+                    TGdata = TGresponse.json()
+                    TGinfo = TGdata[0]['rating']
 
-        await message.channel.send(f'Player: {message.author}\n1v1: {oneVoneinfo}\nTG: {TGinfo}')
+            except(IndexError):
+                TGinfo = 'No data available'
 
-        '''except(JSONDecodeError):
-            await message.channel.send("Sorry, I can't find any information for that ID. 😳 \nMaybe there's a mistake in it? ")'''
+
+            try:
+                onevoneresponse = requests.get(
+                        'https://aoe2.net/api/player/ratinghistory',
+                        params={'game': 'aoe2de',
+                                'leaderboard_id': '3',
+                                'start': '0',
+                                'count': '1',
+                                'steam_id': userID,
+                                }
+                    )
+                onevonedata = onevoneresponse.json()
+                oneVoneinfo = onevonedata[0]['rating']
+            except(IndexError):
+                oneVoneinfo = 'No data available'
+
+            await message.channel.send(f'Player: {playerdict[userID]}\n1v1: {oneVoneinfo}\nTG: {TGinfo}')
+
 
     if 'good bot' in message.content.lower():
         await message.channel.send('Thank you! 😇')
