@@ -41,7 +41,7 @@ async def on_message(message):
                 TGdata = TGresponse.json()
                 TGinfo = TGdata[0]['rating']
             else:
-                await message.channel.send("Sorry, I can't find any information for that ID. 😳 \nMaybe there's a mistake in it? ")
+                await message.channel.send(f"Sorry, I can't find any information for that ID ({userID}). 😳 \nMaybe there's a mistake in it? ")
                 return
 
         except(IndexError):
