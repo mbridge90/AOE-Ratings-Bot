@@ -74,9 +74,9 @@ async def on_message(message):
         await message.channel.send('Thank you! 😇')
 
     if 'bad bot' in message.content.lower():
-        if message.author.name == "JLemon":
+        if message.author.username == "JLemon":
             await message.channel.send('🍋🍋🍋🍋🍋🍋')
-        if message.author.name == "RibRidge":
+        elif message.author.username == "RibRidge":
             await message.channel.send('Go to hell.')
         else:
             await message.channel.send('😭😭😭😭😭😭')
