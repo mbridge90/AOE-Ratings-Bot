@@ -31,8 +31,8 @@ async def on_message(message):
             userID = as_list[1]
         except(IndexError):
             if message.author.name in playerdict.values():
-                for id, user in playerdict.items():
-                    if user == message.author.name:
+                for id, name in playerdict.items():
+                    if name == message.author.name:
                         userID = id
             else:
                 await message.channel.send(f"Please enter an ID number. I can't do anything for you without one!")
@@ -120,7 +120,7 @@ async def on_message(message):
         for tup in pwr_sorted:
             await message.channel.send(f'{tup[0]}: {tup[1]}')
 
-    if '!leaderboardtg' in message.content:
+    elif '!leaderboardtg' in message.content:
         leaderboard = {}
         for id in playerdict.keys():
             try:
@@ -148,5 +148,8 @@ async def on_message(message):
         pwr_sorted = sorted(playerswithratings.items(), key=itemgetter(1), reverse=True)
         for tup in pwr_sorted:
             await message.channel.send(f'{tup[0]}: {tup[1]}')
+
+    elif '!leaderboard' in message.content:
+        await message.channel.send('Do you want "!leaderboard1v1" or "!leaderboardtg"?')
 
 bot.run(TOKEN)
