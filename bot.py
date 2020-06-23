@@ -1,5 +1,4 @@
 import os
-import random
 import requests
 from playerdict import playerdict
 from operator import itemgetter
@@ -85,7 +84,8 @@ async def on_message(message):
     if '!leaderboard' in message.content:
         leaderboard = {}
         for id in playerdict.keys():
-            ratingresponse = requests.get(
+            try:
+                ratingresponse = requests.get(
                     'https://aoe2.net/api/player/ratinghistory',
                     params={'game': 'aoe2de',
                             'leaderboard_id': '3',
@@ -94,13 +94,21 @@ async def on_message(message):
                             'steam_id': id,
                             }
                 )
-            onevonedata = ratingresponse.json()
-            oneVoneinfo = onevonedata[0]['rating']
-            leaderboard[playerdict[id]] = oneVoneinfo
-        leaderboard_sorted = sorted(leaderboard.items(), key=itemgetter(1))
-        for player in leaderboard_sorted:
-            await message.channel.send(player)
+                onevonedata = ratingresponse.json()
+                oneVoneinfo = onevonedata[0]['rating']
+                leaderboard[playerdict[id]] = oneVoneinfo
+            except(IndexError):
+                leaderboard[playerdict[id]] = "No data available"
 
+        playerswithratings = {}
 
+        for key in leaderboard.keys():
+            if type(leaderboard[key]) == int:
+                playerswithratings[key] = leaderboard[key]
+
+        pwr_sorted = sorted(playerswithratings.items(), key=itemgetter(1), reverse=True)
+        for tup in pwr_sorted:
+            f'{tup[0]}: {tup[1]}'
+            await message.channel.send(f'{tup[0]}: {tup[1]}')
 
 bot.run(TOKEN)
