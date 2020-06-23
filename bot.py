@@ -26,16 +26,18 @@ async def on_message(message):
 
     if '!rating' in message.content:
         as_list = message.content.split()
+        userID = ''
         try:
             userID = as_list[1]
         except(IndexError):
-            if message.author.name in playerdict.items():
+            if message.author.name in playerdict.values():
                 for id, user in playerdict.items():
                     if user == message.author.name:
                         userID = id
             else:
                 await message.channel.send(f"Please enter an ID number. I can't do anything for you without one!")
                 return
+
         if userID not in playerdict.keys():
             await message.channel.send(
                 f"Sorry, I can't find any information for that ID ({userID}). 😳 \nMaybe there's a mistake in it? ")
