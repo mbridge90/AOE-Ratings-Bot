@@ -76,7 +76,10 @@ async def on_message(message):
             await message.channel.send(f'Player: {playerdict[userID]}\n1v1: {oneVoneinfo}\nTG: {TGinfo}')
 
     if 'good bot' in message.content.lower():
-        await message.channel.send('Thank you! 😇')
+        if message.author.name == "mbridge":
+            await message.channel.send('❤️')
+        else:
+            await message.channel.send('Thank you! 😇')
 
     if 'bad bot' in message.content.lower():
         if message.author.name == "JLemon":
