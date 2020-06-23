@@ -81,7 +81,7 @@ async def on_message(message):
         else:
             await message.channel.send('😭😭😭😭😭😭')
 
-    if '!leaderboard' in message.content:
+    if '!leaderboard1v1' in message.content:
         leaderboard = {}
         for id in playerdict.keys():
             try:
@@ -108,7 +108,35 @@ async def on_message(message):
 
         pwr_sorted = sorted(playerswithratings.items(), key=itemgetter(1), reverse=True)
         for tup in pwr_sorted:
-            f'{tup[0]}: {tup[1]}'
+            await message.channel.send(f'{tup[0]}: {tup[1]}')
+
+    if '!leaderboardtg' in message.content:
+        leaderboard = {}
+        for id in playerdict.keys():
+            try:
+                ratingresponse = requests.get(
+                    'https://aoe2.net/api/player/ratinghistory',
+                    params={'game': 'aoe2de',
+                            'leaderboard_id': '4',
+                            'start': '0',
+                            'count': '1',
+                            'steam_id': id,
+                            }
+                )
+                tgdata = ratingresponse.json()
+                tginfo = tgdata[0]['rating']
+                leaderboard[playerdict[id]] = tginfo
+            except(IndexError):
+                leaderboard[playerdict[id]] = "No data available"
+
+        playerswithratings = {}
+
+        for key in leaderboard.keys():
+            if type(leaderboard[key]) == int:
+                playerswithratings[key] = leaderboard[key]
+
+        pwr_sorted = sorted(playerswithratings.items(), key=itemgetter(1), reverse=True)
+        for tup in pwr_sorted:
             await message.channel.send(f'{tup[0]}: {tup[1]}')
 
 bot.run(TOKEN)
