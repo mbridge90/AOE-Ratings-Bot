@@ -2,6 +2,7 @@ import os
 import random
 import requests
 from playerdict import playerdict
+from operator import itemgetter
 
 import discord
 from dotenv import load_dotenv
@@ -80,6 +81,26 @@ async def on_message(message):
             await message.channel.send('Go to hell.')
         else:
             await message.channel.send('😭😭😭😭😭😭')
+
+    if '!leaderboard' in message.content:
+        leaderboard = {}
+        for id in playerdict.keys():
+            ratingresponse = requests.get(
+                    'https://aoe2.net/api/player/ratinghistory',
+                    params={'game': 'aoe2de',
+                            'leaderboard_id': '3',
+                            'start': '0',
+                            'count': '1',
+                            'steam_id': id,
+                            }
+                )
+            onevonedata = onevoneresponse.json()
+            oneVoneinfo = onevonedata[0]['rating']
+            leaderboard[playerdict[id]] = oneVoneinfo
+        leaderboard_sorted = sorted(leaderboard.items(), key=itemgetter(1))
+        for player in leaderboard_sorted:
+            await message.channel.send(player)
+
 
 
 bot.run(TOKEN)
