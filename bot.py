@@ -29,8 +29,11 @@ async def on_message(message):
         try:
             userID = as_list[1]
         except(IndexError):
-            await message.channel.send(f"Please enter an ID number. I can't do anything without one yet!")
-            return
+            for id, user in playerdict.items():
+                if user == message.author.name:
+                    userID = id
+            '''await message.channel.send(f"Please enter an ID number. I can't do anything without one yet!")
+            return'''
         if userID not in playerdict.keys():
             await message.channel.send(
                 f"Sorry, I can't find any information for that ID ({userID}). 😳 \nMaybe there's a mistake in it? ")
@@ -74,9 +77,9 @@ async def on_message(message):
         await message.channel.send('Thank you! 😇')
 
     if 'bad bot' in message.content.lower():
-        if message.author.username == "JLemon":
+        if message.author.name == "JLemon":
             await message.channel.send('🍋🍋🍋🍋🍋🍋')
-        elif message.author.username == "RibRidge":
+        elif message.author.name == "RibRidge":
             await message.channel.send('Go to hell.')
         else:
             await message.channel.send('😭😭😭😭😭😭')
