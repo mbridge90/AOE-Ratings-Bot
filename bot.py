@@ -74,4 +74,7 @@ async def on_message(message):
     if 'good bot' in message.content.lower():
         await message.channel.send('Thank you! 😇')
 
+    if 'bad bot' in message.content.lower():
+        await message.channel.send('😭😭😭😭😭😭')
+
 bot.run(TOKEN)
