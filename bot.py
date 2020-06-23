@@ -94,7 +94,7 @@ async def on_message(message):
                             'steam_id': id,
                             }
                 )
-            onevonedata = onevoneresponse.json()
+            onevonedata = ratingresponse.json()
             oneVoneinfo = onevonedata[0]['rating']
             leaderboard[playerdict[id]] = oneVoneinfo
         leaderboard_sorted = sorted(leaderboard.items(), key=itemgetter(1))
