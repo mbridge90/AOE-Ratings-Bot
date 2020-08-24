@@ -2,6 +2,7 @@ import os
 import requests
 from playerdict import playerdict
 from operator import itemgetter
+import random
 
 import discord
 from dotenv import load_dotenv
@@ -82,6 +83,16 @@ async def on_message(message):
             await message.channel.send('❤️')
         else:
             await message.channel.send('Thank you! 😇')
+
+    if message.author.name == "RibRidge":
+        if 'bad bot' not in message.content.lower():
+            random_num = random.randint(0,11)
+            if random_num % 2 == 0 and random_num % 5 == 0:
+                await message.channel.send("SHUT UP RICHARD")
+            elif random_num % 2 == 0:
+                await message.channel.send("🙄")
+            elif random_num % 5 == 0:
+                await message.channel.send("😠")
 
     if 'bad bot' in message.content.lower():
         if message.author.name == "JLemon":
