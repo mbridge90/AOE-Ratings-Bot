@@ -78,23 +78,13 @@ async def on_message(message):
 
             await message.channel.send(f'Player: {playerdict[userID]}\n1v1: {oneVoneinfo}\nTG: {TGinfo}')
 
-    if 'good bot' in message.content.lower():
+    elif 'good bot' in message.content.lower():
         if message.author.name == "mbridge":
             await message.channel.send('❤️')
         else:
-            await message.channel.send('Thank you! 😇')
+            await message.channel.send("💌 thank you {name}, you are a good bot too".format(name=message.author.name))
 
-    if message.author.name == "RibRidge":
-        if 'bad bot' not in message.content.lower():
-            random_num = random.randint(0,11)
-            if random_num % 2 == 0 and random_num % 5 == 0:
-                await message.channel.send("SHUT UP RICHARD")
-            elif random_num % 2 == 0:
-                await message.channel.send("🙄")
-            elif random_num % 5 == 0:
-                await message.channel.send("😠")
-
-    if 'bad bot' in message.content.lower():
+    elif 'bad bot' in message.content.lower():
         if message.author.name == "JLemon":
             await message.channel.send('🍋🍋🍋🍋🍋🍋')
         elif message.author.name == "RibRidge":
@@ -102,7 +92,7 @@ async def on_message(message):
         else:
             await message.channel.send('😭😭😭😭😭😭')
 
-    if '!leaderboard1v1' in message.content:
+    elif '!leaderboard1v1' in message.content:
         leaderboard = {}
         for id in playerdict.keys():
             try:
@@ -162,5 +152,8 @@ async def on_message(message):
 
     elif '!leaderboard' in message.content:
         await message.channel.send('Do you want "!leaderboard1v1" or "!leaderboardtg"?')
+
+    elif random.randint(1, 10) == 10:
+        await message.channel.send("Whisht up there {name}".format(name=message.author.name))
 
 bot.run(TOKEN)
