@@ -153,7 +153,7 @@ async def on_message(message):
     elif '!leaderboard' in message.content:
         await message.channel.send('Do you want "!leaderboard1v1" or "!leaderboardtg"?')
 
-    elif random.randint(1, 10) == 10:
+    elif random.randint(1, 1000) == 10:
         await message.channel.send("Whisht up there {name}".format(name=message.author.name))
 
 bot.run(TOKEN)
